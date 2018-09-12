@@ -32,6 +32,7 @@ pipeline {
                 }
             }
         }
+
         stage ('Documenting Stage'){
 
             steps {
@@ -41,15 +42,7 @@ pipeline {
                 }
             }
         }
-        stage ('Deploying Stage'){
-
-            steps {
-                withMaven(maven : 'maven_3_5_4') {
-                    echo 'Deploying'
-                    sh 'mvn deploy'
-                }
-            }
-        }
+        
 
     }
 }
