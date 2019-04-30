@@ -19,8 +19,7 @@ public abstract class Person implements PersonInterface{
 
 	Position pos;
 	int age;
-	int attractiveness;
-	int adaptability;
+	Traits traits;
 	String name;
 	
 	/**
@@ -32,9 +31,8 @@ public abstract class Person implements PersonInterface{
 	public Person(int x, int y, Traits traits) {
 		this.pos = new Position(x,y);
 		this.age = 0;
-		name = traits.name;
-		adaptability = traits.adaptability;
-		attractiveness = traits.attractiveness;
+		this.traits = traits;
+		this.name = traits.name;
 	}
 	/**
 	 * Allows an individual to move in a random direction.
@@ -54,8 +52,8 @@ public abstract class Person implements PersonInterface{
 		
 		do {
 			int randNum = r.nextInt(4);
-			int x = this.pos.PosX + Position.moves[randNum].PosX;
-			int y = this.pos.PosY + Position.moves[randNum].PosY;
+			int x = this.pos.PosX + (Integer)Position.moves[randNum].getKey();
+			int y = this.pos.PosY + (Integer)Position.moves[randNum].getValue();
 			newPos = new Position(x,y);		
 		}while(!Position.isGoodPos(newPos));
 		return newPos;
@@ -73,7 +71,7 @@ public abstract class Person implements PersonInterface{
 	 * Return the person's Survival Points
 	 * @return Survival Points
 	 */
-	public int getSP() {
-		return (attractiveness + adaptability);
+	public int getAdaptability() {
+		return (Integer)this.traits.map.get("adaptability");
 	}
 }

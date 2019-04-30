@@ -15,7 +15,7 @@ public interface GridInterface {
 	 * @param pos - Position to check
 	 * @return True or False
 	 */
-	public boolean checkOccupied(Position pos);
+	boolean checkOccupied(Position pos);
 	
 	/**
 	 * Move a person from an old position to a new position

@@ -3,6 +3,9 @@
  */
 package com.oscarsong.environment_sim;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * Encapsulates the traits a person can possess
  * @author oscarsong
@@ -10,11 +13,9 @@ package com.oscarsong.environment_sim;
  */
 public class Traits {
 
-	public int strength;
-	public int attractiveness;
-	public int adaptability;
+	public Map<String, Integer> map;
 	public String name;
-	public int reproductiveness;
+
 	/**
 	 * Constructor for a baby
 	 * @param man - father
@@ -22,43 +23,32 @@ public class Traits {
 	 */
 	public Traits(Man man, Woman woman) {
 		this.name = man.name;
-		this.attractiveness = woman.attractiveness;
-		this.adaptability = avg(man.adaptability,woman.adaptability);
-		this.strength = man.strength;
+		this.map = new HashMap<String, Integer>();
+		this.map.put("adaptability", avg(man.traits.map.get("adaptability"),woman.traits.map.get("adaptability")));
+		this.map.put("strength", man.traits.map.get("strength"));
+		this.map.put("fertility", woman.traits.map.get("fertility"));
 	}
 	/**
-	 * Constructor for the First Men
+	 * Constructor for the First Man or Woman
 	 * @param name - name
 	 * @param strength - strength
-	 * @param attractiveness - attractiveness
 	 * @param adaptability - adaptability
 	 */
-	public Traits(String name, int strength, int attractiveness, int adaptability) {
+	public Traits(String name, int strength, int adaptability, int fertility) {
 		this.name = name;
-		this.strength = strength;
-		this.attractiveness = attractiveness;
-		this.adaptability = adaptability;
+		this.map = new HashMap<String, Integer>();
+		this.map.put("strength", strength);
+		this.map.put("adaptability", adaptability);
+		this.map.put("fertility", fertility);
 	}
-	/**
-	 * Constructor for the First Women
-	 * @param reproductiveness - how to much to reproduce
-	 * @param name - name
-	 * @param attractiveness - attractiveness
-	 * @param adaptability - adaptability
-	 */
-	public Traits(int reproductiveness, String name, int attractiveness, int adaptability) {
-		this.reproductiveness = reproductiveness;
-		this.name = name;
-		this.attractiveness = attractiveness;
-		this.adaptability = adaptability;
-	}
+
 	/**
 	 * To get the average of two integers
 	 * @param m - man's value
 	 * @param w - woman's value
 	 * @return an average value of the two
 	 */
-	public static int avg(int m, int w) {
+	public static Integer avg(int m, int w) {
 		return (m+w)/2;
 	}
 }

@@ -3,6 +3,8 @@
  */
 package com.oscarsong.environment_sim;
 
+import java.util.HashMap;
+
 /**
  * This class implements the methods of PersonInterface 
  * and inherits from Person abstract class.
@@ -14,7 +16,7 @@ package com.oscarsong.environment_sim;
  */
 public class Man extends Person{
 	//Strength is used for fighting
-	public int strength;
+	public Traits traits;
 	private GridManInterface gridInterface;
 	/**
 	 * Constructor method to instantiate a man with a certain location
@@ -24,7 +26,7 @@ public class Man extends Person{
 	 */
 	public Man(int x, int y, Traits traits) {
 		super(x,y,traits);
-		strength = traits.strength;
+		this.traits = traits;
 		gridInterface = Grid.getInstance();
 	}
 	
@@ -39,8 +41,8 @@ public class Man extends Person{
 	public Position randMove() {
 		
 		for(int i = 0; i < Position.moves.length;i++) {
-			int x = this.pos.PosX+Position.moves[i].PosX;
-			int y = this.pos.PosY+Position.moves[i].PosY;
+			int x = this.pos.PosX+(Integer)Position.moves[i].getKey();
+			int y = this.pos.PosY+(Integer)Position.moves[i].getValue();
 			Position newPos = new Position(x,y);
 			if(Position.isGoodPos(newPos) && gridInterface.checkOccupied(pos)) {
 				Person otherPerson = gridInterface.getPerson(newPos);
@@ -48,7 +50,7 @@ public class Man extends Person{
 					//must be a woman. Check if can mate
 					Woman otherWoman = (Woman)otherPerson;
 					//If they are not related and the woman is prettier, mate
-					if(this.name.equals(otherWoman.name) && otherWoman.attractiveness >= this.attractiveness) {
+					if(this.name.equals(otherWoman.name)) {
 						otherWoman.reproduce(this);
 					}
 				}
@@ -57,14 +59,11 @@ public class Man extends Person{
 		Position pos = super.randMove();
 		if(gridInterface.checkOccupied(pos)) {
 			Person otherPerson = gridInterface.getPerson(pos);
-			//if that person is a man, fight each other until death
-			if(otherPerson instanceof Man) {
-				Man otherMan = (Man)otherPerson;
-				if(!fightWin(otherMan))
+			if(otherPerson.name != this.name){
+				if(!fightWin(otherPerson))
 					return pos;
 			}
-			else
-				return pos;
+			else return pos;
 		}
 		gridInterface.movePerson(this.pos,pos,this);
 		this.pos = pos;
@@ -72,11 +71,11 @@ public class Man extends Person{
 	}
 	/**
 	 * Fights the other man to death
-	 * @param otherMan - The other man that needs to be fight off
+	 * @param otherPerson - The other man that needs to be fight off
 	 * @return - True if won the battle or false not
 	 */
-	public boolean fightWin(Man otherMan) {
-		return gridInterface.menFight(this, otherMan);
+	public boolean fightWin(Person otherPerson) {
+		return gridInterface.fightWin(this, otherPerson);
 	}
 	/**
 	 * Mutate a certain trait
@@ -84,26 +83,15 @@ public class Man extends Person{
 	 */
 	public void mutate() {
 		// TODO Auto-generated method stub
-		int r = (int)(Math.random() * 3);
+		int r = (int)(Math.random() * 2);
+		int change = (Math.random()<0.7)? 5: -5;
 		switch(r){
-		case 0: 
-			this.strength += (Math.random()<0.7)?(5):(-5);
-			break;
-		case 1:
-			this.attractiveness += (Math.random()<0.7)?(5):(-5);
+		case 0:
+			this.traits.map.put("strength", this.traits.map.get("strength") + change);
 			break;
 		default:
-			this.adaptability += (Math.random()<0.7)?(5):(-5);
+			this.traits.map.put("adaptability", this.traits.map.get("adaptability") + change);
 			break;
 		}
 	}
-
-	/**
-	 * @return survival points with strength included
-	 */
-	@Override
-	public int getSP() {
-		return strength + super.getSP();
-	}
-
 }

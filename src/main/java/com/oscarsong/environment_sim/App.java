@@ -55,35 +55,35 @@ public class App
 		
 		//Setting up the Starks
 		pos = new Position(10,15);
-		traits = new Traits("Stark", 15, 8,7); //SP = 30
+		traits = new Traits("Stark", 10, 15, 1); //SP = 30
 		newPerson = new Man(pos.PosX,pos.PosY,traits);
 		grid.setPerson(pos, newPerson);
 		
 		pos = new Position(11,15);
-		traits = new Traits(3,"Stark", 10,10); //SP = 20
+		traits = new Traits("Stark", 5, 15, 3); //SP = 20
 		newPerson = new Woman(pos.PosX,pos.PosY,traits);
 		grid.setPerson(pos, newPerson);
 		
 		//Setting up the Lannisters
 		pos = new Position(14,10);
-		traits = new Traits("Lannister", 10, 10, 10); //SP = 30
+		traits = new Traits("Lannister", 8, 10, 4); //SP = 30
 		newPerson = new Man(pos.PosX,pos.PosY,traits);
 		grid.setPerson(pos, newPerson);
 		
 		pos = new Position(15,10);
-		traits = new Traits(3,"Lannister", 12,8); //SP = 20
+		traits = new Traits("Lannister", 4, 8, 6); //SP = 20
 		newPerson = new Woman(pos.PosX,pos.PosY,traits);
 		grid.setPerson(pos, newPerson);
 		
 		
 		//Setting up the Baratheons
 		pos = new Position(2,8);
-		traits = new Traits("Baratheon", 5,5,20); //SP = 30
+		traits = new Traits("Baratheon", 15, 10, 1); //SP = 30
 		newPerson = new Man(pos.PosX,pos.PosY,traits);
 		grid.setPerson(pos, newPerson);
 		
 		pos = new Position(3,8);
-		traits = new Traits(3,"Baratheon", 8,12); //SP = 20
+		traits = new Traits("Baratheon", 5, 8, 3); //SP = 20
 		newPerson = new Woman(pos.PosX,pos.PosY,traits);
 		grid.setPerson(pos, newPerson);
 		
@@ -144,26 +144,13 @@ public class App
 			if(year % 10 == 0) {
 				System.out.println("Disaster time!");
 				System.out.println("Adaptability threshold: "+(year/5));
-				if(person.adaptability < (year/5))
+				if(person.traits.map.get("adaptability") < (year/5))
 					grid.setPerson(person.pos, null);
 					continue;
 			}
-				
-			if(person instanceof Man) {
-				Man man = (Man)person;
-				man.randMove();
-				//Man die of aging
-				if(man.age > 50)
-					grid.setPerson(man.pos, null);
-				
-			}
-			else if(person instanceof Woman) {
-				Woman woman = (Woman)person;
-				woman.randMove();
-				if(woman.age > 60)
-					grid.setPerson(woman.pos, null);
-				
-			}
+			person.randMove();
+			if(person.age > 50)
+				grid.setPerson(person.pos, null);
 		}
 	}
 	/**

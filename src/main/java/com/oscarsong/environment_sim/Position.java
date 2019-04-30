@@ -1,5 +1,5 @@
 package com.oscarsong.environment_sim;
-
+import javafx.util.Pair;
 /**
  * This class encapsulates a person's position as well
  * as provides methods for how a person can move.
@@ -11,21 +11,21 @@ public class Position {
 
 	public int PosX;
 	public int PosY;
-	public final static Position[] moves = {	//Final selection of moves available
-			new Position(-1,0),
-			new Position(0,-1),
-			new Position(1,0),
-			new Position(0,1)
+	public final static Pair[] moves = {	//Final selection of moves available
+			new Pair(-1,0),
+			new Pair(0,-1),
+			new Pair(1,0),
+			new Pair(0,1)
 	};
-	public final static Position[] surround = {
-			new Position(-1,-1),
-			new Position(-1,0),
-			new Position(-1,1),
-			new Position(0,-1),
-			new Position(0,1),
-			new Position(1,-1),
-			new Position(1,0),
-			new Position(1,1)
+	public final static Pair[] surround = {
+			new Pair(-1,-1),
+			new Pair(-1,0),
+			new Pair(-1,1),
+			new Pair(0,-1),
+			new Pair(0,1),
+			new Pair(1,-1),
+			new Pair(1,0),
+			new Pair(1,1)
 	};
 	/**
 	 * Constructor method to set a position at certain coordinate

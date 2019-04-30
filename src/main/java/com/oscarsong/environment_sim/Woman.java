@@ -15,7 +15,7 @@ package com.oscarsong.environment_sim;
  */
 public class Woman extends Person {
 
-	public int reproductiveness;
+	public Traits traits;
 	private GridWomanInterface gridInterface;
 	
 	/**
@@ -30,7 +30,7 @@ public class Woman extends Person {
 	 */
 	public Woman(int x, int y, Traits traits) {
 		super(x, y, traits);
-		this.reproductiveness = traits.reproductiveness;
+		this.traits = traits;
 		gridInterface = Grid.getInstance();
 	}
 
@@ -60,15 +60,13 @@ public class Woman extends Person {
 	 * @param man - the man she is supposed to reproduce with 
 	 */
 	public void reproduce(Man man) {
-		//Abort reproduction if the Man is not good enough
-		if(this.getSP() > (man.getSP() * 1.5)) {
-			return;
-		}
+
 		Traits traits = new Traits(man,this);
 		int babyAmt = 0;
+		int babyLimit = Traits.avg(man.traits.map.get("fertility"), this.traits.map.get("fertility"));
 		for(int i = 0; i < Position.surround.length;i++) {
-			int x = this.pos.PosX+Position.surround[i].PosX;
-			int y = this.pos.PosY+Position.surround[i].PosY;
+			int x = this.pos.PosX+(Integer)Position.surround[i].getKey();
+			int y = this.pos.PosY+(Integer)Position.surround[i].getValue();
 			Position pos = new Position(x,y);
 			if(Position.isGoodPos(pos) && !gridInterface.checkOccupied(pos)) {
 				Person baby = (Math.random() <0.5) ? new Man(x,y,traits):new Woman(x,y,traits);
@@ -79,7 +77,7 @@ public class Woman extends Person {
 				gridInterface.setPerson(pos, baby);
 				babyAmt++;
 			}
-			if(babyAmt>=this.reproductiveness)
+			if(babyAmt >= babyLimit);
 				break;
 		}
 		
@@ -89,15 +87,15 @@ public class Woman extends Person {
 	 * Mutate a certain trait
 	 * @see com.oscarsong.environment_sim.PersonInterface#mutate()
 	 */
-	@Override
 	public void mutate() {
 		int r = (int)(Math.random() * 2);
+		int change = Math.random()<0.7? 5 : -5;
 		switch(r){
 		case 0:
-			this.attractiveness += (Math.random()<0.7)?(5):(-5);
+			traits.map.put("fertility", this.traits.map.get("fertility") + change);
 			break;
 		default:
-			this.adaptability += (Math.random()<0.7)?(5):(-5);
+			traits.map.put("adaptability", this.traits.map.get("adaptability") + change);
 			break;
 		}
 	}

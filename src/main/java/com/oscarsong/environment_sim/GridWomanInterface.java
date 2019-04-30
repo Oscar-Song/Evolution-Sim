@@ -17,5 +17,5 @@ public interface GridWomanInterface extends GridInterface{
 	 * @param pos - designated position
 	 * @param person - A baby person
 	 */
-	public void setPerson(Position pos, Person person);
+	void setPerson(Position pos, Person person);
 }

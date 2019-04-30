@@ -15,9 +15,9 @@ public interface GridManInterface extends GridInterface{
 	Person getPerson(Position pos);
 	/**
 	 * Put two men into fighting
-	 * @param man1 - first man
-	 * @param man2 - second man
+	 * @param person1 - first person
+	 * @param person2 - second person
 	 * @return - who won the fight
 	 */
-	boolean menFight(Man man1, Man man2);
+	boolean fightWin(Person person1, Person person2);
 }

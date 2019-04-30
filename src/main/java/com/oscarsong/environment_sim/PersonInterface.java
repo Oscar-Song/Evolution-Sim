@@ -28,5 +28,5 @@ public interface PersonInterface {
 	 * Get object's survival Points
 	 * @return - Survival points
 	 */
-	int getSP();
+	int getAdaptability();
 }

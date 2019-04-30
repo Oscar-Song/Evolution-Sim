@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.oscarsong.environment_sim;
 
@@ -12,24 +12,24 @@ package com.oscarsong.environment_sim;
  *
  */
 public class Grid implements GridManInterface, GridWomanInterface{
-	
+
 	private static Grid grid_instance = null;
 	public final static int gridSize = 20;		//Length and width of the square grid
 	private Person[][] personGrid;		//2D array that functions as the object map
-	
+
 	/**
-	 * Private method that instantiate the grid and 
-	 * initialzes the object map 
+	 * Private method that instantiate the grid and
+	 * initialzes the object map
 	 * with each slot either set to null or to a Person
 	 */
 	private Grid() {
 		personGrid = new Person[gridSize][gridSize];
-		
+
 	}
-	
+
 	/**
-	 * Singleton method that ensures grid can 
-	 * not be instantiated again if it has already 
+	 * Singleton method that ensures grid can
+	 * not be instantiated again if it has already
 	 * been so
 	 * <p>
 	 * @return Grid: An instance of Grid object
@@ -40,7 +40,7 @@ public class Grid implements GridManInterface, GridWomanInterface{
 		}
 		return grid_instance;
 	}
-	
+
 	/**
 	 * Check if a certain position is already occupied by another person
 	 * @param pos - the position to check on
@@ -53,16 +53,16 @@ public class Grid implements GridManInterface, GridWomanInterface{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Modifier method that sets a position on the grid to a person
 	 * @param pos - Position with x and y coordinate
 	 * @param person - Person object
 	 */
 	public void setPerson(Position pos, Person person) {
-		
+
 		personGrid[pos.PosX][pos.PosY] = person;
-		
+
 	}
 	/**
 	 * Access specifier method that returns a person on a certain position
@@ -72,7 +72,7 @@ public class Grid implements GridManInterface, GridWomanInterface{
 	public Person getPerson(Position pos) {
 		return personGrid[pos.PosX][pos.PosY];
 	}
-	
+
 	/**
 	 * Move a person from one place to another
 	 */
@@ -81,17 +81,14 @@ public class Grid implements GridManInterface, GridWomanInterface{
 		personGrid[newpos.PosX][newpos.PosY] = person;
 	}
 
-	/**
-	 * @see menFight in GridInterface.java
-	 */
-	public boolean menFight(Man man1, Man man2) {
+	public boolean fightWin(Person person1, Person person2) {
 		// TODO Auto-generated method stub
-		if(man1.strength > man2.strength) {
-			setPerson(man1.pos, null);
+		if(person1.traits.map.get("strength") > person2.traits.map.get("strength")) {
+			setPerson(person1.pos, null);
 			return true;
 		}else {
-			//Add this to deathroll
-			setPerson(man2.pos, null);
+			//Add this to death roll
+			setPerson(person2.pos, null);
 			return false;
 		}
 	}
